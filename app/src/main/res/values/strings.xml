@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">SmartWindow</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="button_send">Register</string>
+    <string name="button_search">Search</string>
+
+    <string name="name">Name</string>
+    <string name="age">Age</string>
+    <string name="email">Email</string>
+
+    <string name="request_action">Please choose an action</string>
+    <string name="request_ip">Please provide the IP</string>
+    <string name="request_details">Please provide the below information</string>
+    <string name="request_email">Please provide an email address</string>
+
+    <string-array name="types_array">
+        <item>Elderly</item>
+        <item>Nurse</item>
+        <item>Family Member</item>
+    </string-array>
+
+</resources>

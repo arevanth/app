@@ -17,6 +17,8 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    protected DrawerLayout drawer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +35,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -82,18 +84,15 @@ public class MainActivity extends AppCompatActivity
 
         int id = item.getItemId();
 
-        if (id == R.id.nav_register)
-        {
-            Intent register = new Intent(MainActivity.this,user_register.class);
-            startActivity(register);
-        }
-        else if (id == R.id.nav_consent)
+
+        if (id == R.id.nav_consent)
         {
             Intent consent = new Intent(MainActivity.this,Consent.class);
             startActivity(consent);
         }
         else if (id == R.id.nav_operate)
         {
+
             Intent operate = new Intent(MainActivity.this,Operate.class);
             startActivity(operate);
         }

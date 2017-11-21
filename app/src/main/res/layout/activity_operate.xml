@@ -19,17 +19,17 @@
             android:text="@string/request_ip"/>
 
         <EditText
+            android:id="@+id/ipaddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:inputType="number"
             android:hint="IP Address" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:onClick="operate"
+            android:onClick="operation"
             android:textSize="20sp"
             android:layout_marginTop="10dp"
             android:hint="Connect"/>

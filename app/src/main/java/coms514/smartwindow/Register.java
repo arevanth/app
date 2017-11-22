@@ -107,7 +107,7 @@ public class Register extends AppCompatActivity {
 
         try
         {
-            URL url = new URL("http://34.216.80.212:8080/register");
+            URL url = new URL("http://" + Util.ip + "/register");
 
             HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
             httpURLConnection.setDoOutput(true);

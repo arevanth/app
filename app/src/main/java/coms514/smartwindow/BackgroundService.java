@@ -2,46 +2,15 @@ package coms514.smartwindow;
 
 import android.app.Service;
 import android.content.Intent;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.os.IBinder;
 
-public class BackgroundService extends Service implements SensorEventListener {
+import java.util.Timer;
 
-    private SensorManager mSensorManager;
-    private Sensor mSensor;
-    private long lastUpdate = 0;
-    private float last_x, last_y, last_z;
-    private static final int SHAKE_THRESHOLD = 600;
+public class BackgroundService extends Service {
+
+    private Timer timer = new Timer();
 
     public BackgroundService() {
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId)
-    {
-        mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-
-        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
-
-        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
-
-        return START_STICKY;
-    }
-
-    @Override
-    public void onSensorChanged(SensorEvent sensorEvent)
-    {
-        if(sensorEvent.sensor.getType() == Sensor.TYPE_LIGHT){
-            float value = sensorEvent.values[0];
-            //Call a function to check if its more than what we want.
-        }
-    }
-
-    @Override
-    public void onAccuracyChanged (Sensor sensor, int accuracy) {
 
     }
 
@@ -49,4 +18,42 @@ public class BackgroundService extends Service implements SensorEventListener {
     public IBinder onBind(Intent intent) {
         return null;
     }
+
+    /*@Override
+    public void onCreate()
+    {
+        super.onCreate();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                String email = MainActivity.email;
+                List<String> ip = Condition.getAllIp(email);
+                int length = ip.size();
+                int i = 0;
+                while (i<length)
+                {
+                    if(sendRequestToServer(ip.get(i)) < ip.get(i))
+                    {
+                        Toggle.sendOpenRequest();
+                    }
+                    i++;
+                }
+            }
+        });
+    }*/
+
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+    }
+
+    protected int  sendRequestToServer(String ip)
+    {
+        int photocellValue = 0;
+
+        return photocellValue;
+    }
+
+
 }

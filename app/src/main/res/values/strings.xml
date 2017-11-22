@@ -19,6 +19,8 @@
     <string name="request_ip">Please provide the IP</string>
     <string name="request_details">Please provide the below information</string>
     <string name="request_email">Please provide an email address</string>
+    <string name="open_condition">Open blinds for lighting less than</string>
+    <string name="close_condition">Close blinds for lighting more than</string>
 
     <string-array name="types_array">
         <item>Elderly</item>
@@ -39,5 +41,6 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="title_activity_set_condition">SetCondition</string>
 
 </resources>

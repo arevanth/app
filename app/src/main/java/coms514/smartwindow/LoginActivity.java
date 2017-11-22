@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -39,6 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
+import static coms514.smartwindow.R.id.login;
 
 /**
  * A login screen that offers login via email/password.
@@ -80,7 +82,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
+                if (id == login || id == EditorInfo.IME_NULL) {
                     attemptLogin();
                     return true;
                 }
@@ -98,6 +100,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        if (android.os.Build.VERSION.SDK_INT > 9)
+        {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
     }
 
     private void populateAutoComplete() {
@@ -200,27 +208,30 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             /*mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);*/
 
-            Intent i = new Intent(LoginActivity.this,MainActivity.class);
-            startActivity(i);
+            /*Intent i = new Intent(LoginActivity.this,MainActivity.class);
+            startActivity(i);*/
 
-            /*JSONObject request = new JSONObject();
+            JSONObject request = new JSONObject();
 
             try{
                 request.put("email",email);
                 request.put("password",password);
+
+                JSONObject response = sendHttpRequest(request);
+                System.out.println(response);
+
+                if(response != null)
+                {
+
+                    Intent i = new Intent(LoginActivity.this,MainActivity.class).putExtra("name",response.getString("name")).putExtra("email",response.getString("email"));
+                    startActivity(i);
+                }
             }
             catch (Exception e){
                 e.printStackTrace();
             }
 
-            JSONObject response = sendHttpRequest(request);
 
-            if(response == null)
-            {
-
-                Intent i = new Intent(LoginActivity.this,MainActivity.class);
-                startActivity(i);
-            }*/
 
 
         }
@@ -233,7 +244,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         JSONObject response= null;
         try
         {
-            URL url = new URL("http://localhost:8080/login");
+            URL url = new URL("http://" + Util.ip + "/login");
 
             HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
             httpURLConnection.setDoOutput(true);

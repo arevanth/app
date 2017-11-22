@@ -6,13 +6,7 @@ import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import android.widget.TextView;
 
 import org.json.JSONObject;
 
@@ -22,74 +16,56 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class Operate extends AppCompatActivity {
+public class SetCondition extends AppCompatActivity {
 
-    protected String ip;
-
+    public String ip;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_operate);
+
+        ip = getIntent().getStringExtra("ip");
+
+        setContentView(R.layout.activity_set_condition);
+
+        TextView view = (TextView) findViewById(R.id.ip);
+
+        view.setText(ip);
 
         if (android.os.Build.VERSION.SDK_INT > 9)
         {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
-
     }
 
-    protected void operation(View view)
+    protected void savecondition(View v)
     {
-        EditText mEdit   = (EditText) findViewById(R.id.ipaddress);
+        EditText open = (EditText) findViewById(R.id.open);
+        int opencondition = Integer.parseInt(open.getText().toString());
 
-        ip = mEdit.getText().toString();
+        EditText close = (EditText) findViewById(R.id.close);
+        int closecondition = Integer.parseInt(close.getText().toString());
 
         JSONObject request = new JSONObject();
 
-        /*Intent i = new Intent(Operate.this, Toggle.class).putExtra("ip",ip);
-        startActivity(i);*/
-        String email = getIntent().getStringExtra("email");
-        try
-        {
-            request.put("email",email);
+        try{
+            request.put("email",MainActivity.email);
             request.put("ip",ip);
+            request.put("open",open);
+            request.put("close","close");
+
+            if(sendHttpRequest(request).equals("true"))
+            {
+                Intent i = new Intent(this, MainActivity.class);
+                startActivity(i);
+            }
         }
+
         catch (Exception ex)
         {
             ex.printStackTrace();
         }
 
-        System.out.println(request);
-        String response = sendHttpRequest(request);
-
-        if(response.equals("true")) {
-
-            Intent i = new Intent(Operate.this, Toggle.class).putExtra("ip",ip);
-            startActivity(i);
-        }
-    }
-
-    protected void sendGetHttpRequest() {
-        System.out.print("Something");
-        RequestQueue queue = Volley.newRequestQueue(this);
-
-        String url = "http://172.20.10.8/?cmd=TURN_ON_LED";
-        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-
-            @Override
-            public void onResponse(String response) {
-                System.out.println(response.toString());
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.getStackTrace();
-            }
-        });
-
-        queue.add(request);
     }
 
     protected String sendHttpRequest(JSONObject request)
@@ -99,7 +75,7 @@ public class Operate extends AppCompatActivity {
 
         try
         {
-            URL url = new URL("http://" + Util.ip + "/saveip");
+            URL url = new URL("http://" + Util.ip + "/setcondition");
 
             HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
             httpURLConnection.setDoOutput(true);
